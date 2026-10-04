@@ -1,21 +1,17 @@
 require("dotenv").config();
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const connectDB = require("./config/db");
-
-
-
-const app = express();
-app.use(cors());
-app.use(express.json());
 connectDB();
 
-app.get("/api/v1/health", (req, res) => {
-  res.json({
-    success: true,
-    message: "DevPulse API is running",
-  });
-});
+app.use(cors());
+app.use(express.json());
+
+
+const healthRoutes = require("./routes/health.routes");
+
+app.use("/api/health", healthRoutes);
 
 const PORT = process.env.PORT || 5000;
 
